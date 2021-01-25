@@ -3,8 +3,11 @@ package me.t3sl4.meteor.Meteorites;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
 import me.t3sl4.meteor.T3SL4Meteor;
 import me.t3sl4.meteor.EventListeners.EventListenerClass;
+import me.t3sl4.meteor.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,6 +25,7 @@ public class Meteorite {
    private ConfigurationSection config;
    BukkitScheduler scheduler = Bukkit.getScheduler();
    private int schedulerId;
+   private Random random = new Random();
    List<Block> blockList = new ArrayList();
 
    public Meteorite(MeteoriteCore core, MeteoriteLayer outerLayer, ConfigurationSection config) {
@@ -49,8 +53,8 @@ public class Meteorite {
          assert chatMessage != null;
 
          if (!chatMessage.equals("")) {
-            chatMessage = setLocationPlaceholders(chatMessage, this.core.getLocation());
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', chatMessage));
+            chatMessage = setLocationPlaceholders(chatMessage, this.core.getLocation().add((this.random.nextInt(2) - 1), -1.0D, (this.random.nextInt(2) - 1)));
+            Bukkit.broadcastMessage(MessageUtil.colorize(chatMessage));
          }
       }
 
@@ -60,7 +64,7 @@ public class Meteorite {
          while(var9.hasNext()) {
             String command = (String)var9.next();
             if (!command.equals("")) {
-               command = setLocationPlaceholders(command, this.core.getLocation());
+               command = setLocationPlaceholders(command, this.core.getLocation().add((this.random.nextInt(2) - 1), -1.0D, (this.random.nextInt(2) - 1)));
                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             }
          }

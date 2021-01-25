@@ -17,10 +17,7 @@ import me.t3sl4.meteor.util.BlockVector2;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.CreateClaimResult;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -116,7 +113,6 @@ public class RandomMeteoriteHandler {
 
                   private boolean checkAllSafeZones() {
                      this.setRandomLocation();
-
                      for(; this.tryCount < 20 && !this.foundSafeLocation; this.foundSafeLocation = true) {
                         if (this.GPisEnabled) {
                            this.locationIsSafeForGP = this.checkIfInGPClaim();
@@ -203,9 +199,10 @@ public class RandomMeteoriteHandler {
                   }
 
                   private void setRandomLocation() {
-                     this.differenceX = maxX - minX;
+                     //float factor = (float) Math.random();
+                     this.differenceX = (maxX - minX);
+                     this.differenceZ = (maxZ - minZ);
                      this.randomX = (double)random.nextInt((int)this.differenceX) + minX;
-                     this.differenceZ = maxZ - minZ;
                      this.randomZ = (double)random.nextInt((int)this.differenceZ) + minZ;
                      this.randomLocation = new Location(world, this.randomX, height, this.randomZ);
                   }

@@ -7,6 +7,7 @@ import java.util.Random;
 import me.t3sl4.meteor.ExceptionHandling.ConfigException;
 import me.t3sl4.meteor.Guardians.TreasureGuardianCreator;
 import me.t3sl4.meteor.Meteorites.Meteorite;
+import me.t3sl4.meteor.Meteorites.MeteoriteCore;
 import me.t3sl4.meteor.T3SL4Meteor;
 import me.t3sl4.meteor.util.MessageUtil;
 import net.minecraft.server.v1_8_R3.TileEntityChest;
@@ -34,6 +35,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class EventListenerClass implements Listener {
    private T3SL4Meteor plugin;
+   private MeteoriteCore core;
+   private Meteorite mete;
 
    private Random random = new Random();
 
@@ -126,20 +129,20 @@ public class EventListenerClass implements Listener {
       try {
          FileConfiguration fileConfiguration = this.plugin.getConfig();
          if (fileConfiguration.contains("enable-meteorite-treasure") && fileConfiguration.getBoolean("enable-meteorite-treasure")) {
-            Location treasureLocation = coreBlock.getLocation().add((this.random.nextInt(2) - 1), -1.0D, (this.random.nextInt(2) - 1));
+            Location tLoc = coreBlock.getLocation().add((this.random.nextInt(2) - 1), -1.0D, (this.random.nextInt(2) - 1));
             Material treasureType = Material.getMaterial(Objects.<String>requireNonNull(((String)Objects.<String>requireNonNull(fileConfiguration.getString("treasure-barrel-or-chest"))).toUpperCase()));
             if (treasureType != Material.CHEST)
                throw new ConfigException("Invalid treasure type: " + fileConfiguration.getString("treasure-barrel-or-chest") + " -> Treasure must be in a barrel or chest!");
-            treasureLocation.getBlock().setType(treasureType);
+            tLoc.getBlock().setType(treasureType);
             if(treasureType == Material.CHEST) {
-               Chest chest = (Chest)treasureLocation.getBlock().getState();
+               Chest chest = (Chest)tLoc.getBlock().getState();
                CraftChest BukkitChest = (CraftChest) chest;
                TileEntityChest NMSChest = BukkitChest.getTileEntity();
                NMSChest.a(MessageUtil.TREASURECHEST);
                Inventory inventory = chest.getBlockInventory();
                determineTreasureContent(inventory);
             }
-            meteoriteBlockList.add(treasureLocation.getBlock());
+            meteoriteBlockList.add(tLoc.getBlock());
          }
          if (fileConfiguration.contains("core-settings.message")) {
             String chatMessage = fileConfiguration.getString("core-settings.message");

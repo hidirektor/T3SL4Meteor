@@ -1,0 +1,10 @@
+name: T3SL4Meteor
+version: 25.01.2021
+main: me.t3sl4.meteor.T3SL4Meteor
+softdepend: [WorldGuard, WorldEdit, GriefPrevention]
+authors: [OliPulse, SYN_T3SL4]
+description: A highly configurable meteorites plugin.
+commands:
+  tmeteor:
+    usage: /<command>
+    description: The main MeteoritesPro Command
